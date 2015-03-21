@@ -13,6 +13,8 @@
 #include <algorithm>
 #include <numeric>
 #include <limits>
+#include <Eigen/Dense>
+#include <Eigen/SVD>
 
 template<int m,int n,int r>
 class Sampler
@@ -92,7 +94,48 @@ public:
 		sumU.fill(initlen*initlen);
 		sumV.fill(initlen*initlen);
 	}
-	void init(int iter);
+	void init(int iter){
+		Vector<r> w = { 0 };
+		std::array<std::array<bool, n>, m> flag = { { false } };
+		for (auto & pair : omega)	flag[pair.first][pair.second] = true;
+		Eigen::MatrixXd matX(m, n), matZ(m, n);
+		for (int i = 0; i < m; i++)
+			for (int j = 0; j < n; j++)
+			{
+				matX(i, j) = X[i][j];
+				matZ(i, j) = Z[i][j];
+			}
+		lambda = 1.0;
+		for (int c = 0; c < iter; c++){
+			for (int i = 0; i < r; i++)	w[i] = static_cast<double>(a + 1.0) / (b + d[i]);
+			for (int i = 0; i < m; i++)
+				for (int j = 0; j < n; j++)
+					if (flag[i][j])
+						matZ(i, j) = matX(i, j);
+
+			Eigen::JacobiSVD<Eigen::MatrixXd> svd(matZ,Eigen::ComputeThinU | Eigen::ComputeThinV);
+			auto U = svd.matrixU();
+			auto V = svd.matrixV();
+			auto sv = svd.singularValues();
+			for (int i = 0; i < r; i++)
+				d[i] = sv(i) = std::max(0.0, sv(i) - 1 / lambda*w[i]);
+			matZ = U*sv.asDiagonal()*V.transpose();
+		}
+
+		Eigen::JacobiSVD<Eigen::MatrixXd> svd(matZ, Eigen::ComputeFullU | Eigen::ComputeFullV);
+		auto svdU = svd.matrixU();
+		auto svdV = svd.matrixV();
+		auto svdD = svd.singularValues();
+		for (int i = 0; i < m; i++)
+			for (int k = 0; k < r; k++)
+				U[i][k] = svdU(i, k)*initlen;
+
+		for (int i = 0; i < n; i++)
+			for (int k = 0; k < r; k++)
+				V[i][k] = svdV(i, k)*initlen;
+
+		for (int i = 0; i < r; i++)	d[i] = svdD(i);
+	}
 	
 	Sampler(int from, int end, double a = 100, double b = 100) :
 		initlen(0.9), lambda(1.0), observations(0), sampleCounter(0),

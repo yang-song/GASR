@@ -53,13 +53,11 @@
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <Cpp0xSupport>true</Cpp0xSupport>
-      <AdditionalIncludeDirectories>F:\boost_1_58_0_b1\boost_1_58_0_b1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
+      <AdditionalIncludeDirectories>F:\eigen\eigen;F:\boost_1_58_0_b1\boost_1_58_0_b1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Parallelization>true</Parallelization>
       <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
       <InterproceduralOptimization>MultiFile</InterproceduralOptimization>
       <EnableMatrixMultiplyLibraryCall>Yes</EnableMatrixMultiplyLibraryCall>
-      <Optimization>MaxSpeedHighLevel</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -67,7 +65,7 @@
       <AdditionalLibraryDirectories>F:\gsl\gsl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>cblas.lib;gsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <StackReserveSize>1073741824</StackReserveSize>
+      <StackReserveSize>1573741824</StackReserveSize>
       <StackCommitSize>
       </StackCommitSize>
     </Link>
@@ -82,12 +80,10 @@
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
       <Cpp0xSupport>true</Cpp0xSupport>
-      <AdditionalIncludeDirectories>F:\boost_1_58_0_b1\boost_1_58_0_b1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
+      <AdditionalIncludeDirectories>F:\eigen\eigen;F:\boost_1_58_0_b1\boost_1_58_0_b1;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Parallelization>true</Parallelization>
       <UseIntelOptimizedHeaders>true</UseIntelOptimizedHeaders>
       <EnableMatrixMultiplyLibraryCall>Yes</EnableMatrixMultiplyLibraryCall>
-      <Optimization>MaxSpeedHighLevel</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -97,7 +93,7 @@
       <AdditionalLibraryDirectories>F:\gsl\gsl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>cblas.lib;gsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <StackReserveSize>1073741824</StackReserveSize>
+      <StackReserveSize>1573741824</StackReserveSize>
       <StackCommitSize>
       </StackCommitSize>
     </Link>

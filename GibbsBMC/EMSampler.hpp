@@ -2,7 +2,6 @@
 #define GIBBSBMC_EMSAMPLER
 #include "Sampler.hpp"
 #include <vector>
-//#include <gsl/gsl_sf_psi.h>
 #include <boost/math/special_functions/trigamma.hpp>
 #include <boost/math/special_functions/digamma.hpp>
 #include <numeric>
@@ -26,7 +25,7 @@ protected:
 	int EMCounter, EMNumber;
 	std::vector<double> S, SL, SLLambda, SLambda;
 public:
-	EMSampler(int from, int end, double a = 100, double b = 100, int EMNumber=5):
+	EMSampler(int from, int end, double a = 100, double b = 100, int EMNumber=3):
 		Sampler<m, n, r>(from, end, a, b), S(EMNumber), SL(EMNumber),
 		SLLambda(EMNumber), SLambda(EMNumber),EMCounter(0), EMNumber(EMNumber){}
 
@@ -88,7 +87,7 @@ public:
 			alpha -= (std::log(alpha) - boost::math::digamma(alpha) + sllambda - std::log(slambda)) / (1 / alpha -
 					boost::math::trigamma(alpha));
 			if (alpha < 0)	alpha = 0.1;
-			if (alpha > 100000) alpha = 100000;
+			if (alpha > 400000) alpha = 400000;
 		}
 		beta = alpha / slambda;
 

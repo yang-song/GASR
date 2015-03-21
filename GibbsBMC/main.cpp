@@ -6,14 +6,12 @@
 #include <ctime>
 #include <algorithm>
 int main(int argc,char* argv[]){
-	/*
-	const int N = 10;
+	const int N = 100;
 	std::stringstream name;
 	name << "diary" << N << ".txt";
-	std::ofstream diary(name.str());
-	*/
+	std::ofstream diary(R"(..\)"+name.str());
 
-	std::ofstream diary("Jester2-200iter-Rank40.txt");
+//	std::ofstream diary("Jester2-200iter-Rank40.txt");
 	//Movielens 100k
 	/*
 	const int m = 943, n = 1682, r = 100, iter = 100, averageNumber = 40;
@@ -21,15 +19,13 @@ int main(int argc,char* argv[]){
 	std::string testFiles("ua.test");
 	*/
 	//complete case
-	/*
-	const int m = 100, n = 100, r = 100, iter = 200, averageNumber = 50;
+	const int m = 500, n = 200, r = 200, iter = 200, averageNumber = 50;
 	name.str("");
 	name << "X" << N << ".txt";
-	std::string trainFiles(name.str());
+	std::string trainFiles(R"(..\)"+name.str());
 	name.str("");
 	name << "Z" << N << ".txt";
-	std::string testFiles(name.str());
-	*/
+	std::string testFiles(R"(..\)"+name.str());
 	//Movielens 1M
 	/*
 	const int m = 6040, n = 3952, r = 30, iter = 100, averageNumber = 40;
@@ -43,12 +39,11 @@ int main(int argc,char* argv[]){
 	std::string testFiles("test1.dat");
 	*/
 	//Jester 2
-	
+	/*
 	const int m = 23500, n = 100, r = 40, iter = 200, averageNumber = 30;
 	std::string trainFiles("train2.dat");
 	std::string testFiles("test2.dat");
-	
-
+	*/
 	//Jester 3
 	/*
 	const int m = 24938, n = 100, r = 40, iter = 100, averageNumber = 50;
@@ -59,6 +54,7 @@ int main(int argc,char* argv[]){
 	EMSampler<m, n, r> learner(std::max(iter - averageNumber + 1, 0), iter);
 	learner.read(trainFiles);
 	learner.read(testFiles, true);
+	learner.init(1);
 	
 	auto t1 = clock();
 	for (int i = 0; i < iter; i++){
@@ -75,6 +71,7 @@ int main(int argc,char* argv[]){
 		std::cout << "alpha = " << learner.alpha
 			<< " beta = " << learner.beta << std::endl;
 		std::cout << "lambda = " << learner.lambda << std::endl;
+		diary << "lambda = " << learner.lambda << std::endl;
 		auto error = learner.NMAE();
 		//auto error = learner.err();
 		std::cout << "Iteration: " << i << ", Accuracy: " << error << std::endl;
