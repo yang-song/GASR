@@ -65,7 +65,7 @@
       <AdditionalLibraryDirectories>F:\gsl\gsl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>cblas.lib;gsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <StackReserveSize>1573741824</StackReserveSize>
+      <StackReserveSize>1273741824</StackReserveSize>
       <StackCommitSize>
       </StackCommitSize>
     </Link>
@@ -93,7 +93,7 @@
       <AdditionalLibraryDirectories>F:\gsl\gsl\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>cblas.lib;gsl.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <StackReserveSize>1573741824</StackReserveSize>
+      <StackReserveSize>1273741824</StackReserveSize>
       <StackCommitSize>
       </StackCommitSize>
     </Link>
@@ -101,12 +101,10 @@
   <ItemGroup>
     <ClCompile Include="Distributions.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Distributions.h" />
     <ClInclude Include="EMSampler.hpp" />
-    <ClInclude Include="test.hpp" />
     <ClInclude Include="Sampler.hpp" />
   </ItemGroup>
   <ItemGroup>

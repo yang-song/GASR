@@ -1,6 +1,6 @@
 #include "Distributions.h"
 #include <cmath>
-
+#include <stdexcept>
 std::random_device Distributions::rd;
 std::mt19937 Distributions::eng(Distributions::rd());
 const Distributions::_uniform Distributions::uniform(0, 1.0);
@@ -32,14 +32,8 @@ double Distributions::tailNorm(double mu, double var){
 	return r;
 }
 double Distributions::halfNorm(double mu, double var){
-	if (mu < 0){
-		struct exp:public std::exception{
-			const char* what() const override{
-				return "Error using halfNorm!";
-			}
-		}error;
-		throw error;
-	}
+	if (mu < 0)
+		throw std::runtime_error("Error using halfNorm!");
 	double ans = 0.0;
 	auto normal = _normal(mu, std::sqrt(var));
 	while (true){
@@ -50,12 +44,7 @@ double Distributions::halfNorm(double mu, double var){
 		}
 	}
 	if (ans == 0.0){
-		struct exp :public std::exception{
-			const char* what() const override{
-				return "ans==0.0";
-			}
-		}error;
-		throw error;
+		throw std::runtime_error("ans==0.0!");
 	}
 	return ans;
 }

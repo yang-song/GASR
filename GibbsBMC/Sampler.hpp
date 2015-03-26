@@ -15,6 +15,7 @@
 #include <limits>
 #include <Eigen/Dense>
 #include <Eigen/SVD>
+#include <stdexcept>
 
 template<int m,int n,int r>
 class Sampler
@@ -208,15 +209,8 @@ public:
 					//omegaT.push_back(std::make_pair(user, movie));
 					omegaT.emplace(std::make_pair(user, movie));
 				}
-				else{
-					struct exp :public std::exception{
-						const char* what() const override{
-							return "Error! Multiple test key-value pairs!";
-						}
-					}error;
-
-					throw error;
-				}
+				else
+					throw std::runtime_error("Error! Multiple test key-value pairs!");
 
 			}
 		}
@@ -312,7 +306,7 @@ public:
 				sumV[a] += V[b][a] * V[b][a];
 			}
 	}
-	void updateZ(){
+	virtual void updateZ(){
 		//Compute the latent matrix Z
 		for (auto &line : Z)
 			line.fill(0.0);
@@ -383,7 +377,7 @@ public:
 		return _RMSE(Z); 
 	}
 	double averageRMSE(){
-		for (i = 0; i < r; i++)	sumD[i] /= (end - from + 1);
+		for (int i = 0; i < r; i++)	sumD[i] /= (end - from + 1);
 		auto ans = sumZ;
 		for (auto &line : ans)
 			for (auto &item : line)

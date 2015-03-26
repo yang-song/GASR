@@ -6,7 +6,7 @@
 #include <ctime>
 #include <algorithm>
 int main(int argc,char* argv[]){
-	const int N = 100;
+	const int N = 10;
 	std::stringstream name;
 	name << "diary" << N << ".txt";
 	std::ofstream diary(R"(..\)"+name.str());
@@ -19,7 +19,7 @@ int main(int argc,char* argv[]){
 	std::string testFiles("ua.test");
 	*/
 	//complete case
-	const int m = 500, n = 200, r = 200, iter = 200, averageNumber = 50;
+	const int m = 100, n = 100, r = 100, iter = 200, averageNumber = 50;
 	name.str("");
 	name << "X" << N << ".txt";
 	std::string trainFiles(R"(..\)"+name.str());

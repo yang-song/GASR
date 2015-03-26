@@ -23,11 +23,22 @@ protected:
 	}
 
 	int EMCounter, EMNumber;
-	std::vector<double> S, SL, SLLambda, SLambda;
-public:
-	EMSampler(int from, int end, double a = 100, double b = 100, int EMNumber=3):
+	std::vector<double> S, SL, SLLambda, SLambda,se;
+public:	
+	using Sampler < m, n, r > ::lambda;
+	using Sampler<m, n, r>::observations;
+	using Sampler<m, n, r>::sampleCounter;
+	using Sampler<m, n, r>::a;
+	using Sampler<m, n, r>::b;
+	using Sampler<m, n, r>::X;
+	using Sampler<m, n, r>::sumZ;
+	using Sampler<m, n, r>::U;
+	using Sampler<m, n, r>::V;
+	using Sampler<m, n, r>::d;
+	using Sampler<m, n, r>::gamma;
+	EMSampler(int from, int end, double a = 100, double b = 100, int EMNumber=5):
 		Sampler<m, n, r>(from, end, a, b), S(EMNumber), SL(EMNumber),
-		SLLambda(EMNumber), SLambda(EMNumber),EMCounter(0), EMNumber(EMNumber){}
+		SLLambda(EMNumber), SLambda(EMNumber),EMCounter(0), EMNumber(EMNumber),se(EMNumber){}
 
 	void sampleLambda() override{
 		double sum = 0.0;
@@ -65,43 +76,49 @@ public:
 	void EM(){
 		auto s = sum(S) / EMNumber;
 		auto sl = sum(SL) / EMNumber;
-		auto slambda = sum(SLambda) / EMNumber;
-		auto sllambda = sum(SLLambda) / EMNumber;
+//		auto slambda = sum(SLambda) / EMNumber;
+//		auto sllambda = sum(SLLambda) / EMNumber;
 		double ta = a + 1.0;
 
 		while (std::abs(ta - a) > 1e-3){
 			ta = a;
-			//a -= (gsl_sf_psi(a) - std::log(r*a / s) - sl / r) / (gsl_sf_psi_1(a) - 1 / a);
 			a -= (boost::math::digamma(a) - std::log(r*a / s) - sl / r) / (boost::math::trigamma(a) - 1 / a);
 			if (a < 0)	a = 0.1;
 		}
 		b = r*a / s;
 
-		
-		alpha = 0.1;
-		auto talpha = alpha + 1.0;
-		while (std::abs(talpha - alpha) > 1e-3){
-			talpha = alpha;
-			//alpha -= (std::log(alpha) - gsl_sf_psi(alpha) + sllambda - std::log(slambda)) / (1 / alpha -
-			//	gsl_sf_psi_1(alpha));
-			alpha -= (std::log(alpha) - boost::math::digamma(alpha) + sllambda - std::log(slambda)) / (1 / alpha -
-					boost::math::trigamma(alpha));
-			if (alpha < 0)	alpha = 0.1;
-			if (alpha > 400000) alpha = 400000;
-		}
-		beta = alpha / slambda;
-
-		/*
-		alpha = 12.112589496;
-		beta = alpha / slambda;
-		*/
+		double mse = sum(se) / EMNumber;
+		lambda = observations / mse;
 	}
-	
+	void updateZ(){
+	//Compute the latent matrix Z
+		for (auto &line : Z)
+			line.fill(0.0);
+
+		auto needed = omega;
+		needed.insert(omegaT.begin(), omegaT.end());
+		for (auto& pair : needed){
+			int i = pair.first;
+			int j = pair.second;
+			for (int k = 0; k < r; k++)
+				Z[i][j] += d[k] * U[i][k] * V[j][k];
+				if (sampleCounter <= end && sampleCounter >= from)
+					sumZ[i][j] += Z[i][j];
+			}
+		
+		if (sampleCounter <= end && sampleCounter >= from)
+			for (int i = 0; i < r; i++)	sumD[i] += d[i];
+		se[EMCounter - 1] = 0.0;
+		for (auto & item: omega){
+			int i = item.first;
+			int j = item.second;
+			se[EMCounter - 1] += (X[i][j] - Z[i][j])*(X[i][j] - Z[i][j]);
+		}
+	}
 	void sample() override{
 		sampleCounter++;
 		EMCounter++;
 
-		sampleLambda();
 		sampleGammas();
 		sampleds();
 		sampleU();
