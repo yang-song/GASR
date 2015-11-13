@@ -1,11 +1,6 @@
-# GibbsBMC
+# Gibbs sampler for Adaptive relaxed Spectral Regularization (GASR)
 ###Introduction
-C++ version for Bayesian matrix completion, 5-20 times faster than corresponding Scala version. But it is relatively difficult
-to configure compilng options.
+This is the C++ code for implementing the GASR algorithm in the paper: 
+> Yang Song, Jun Zhu, *Bayesian Matrix Completion via Adaptive Relaxed Spectral Regularization*, to appear in AAAI 2016.
 
-###Attention!
-This file is currently in development. It has been successfully compiled and tested
-in Visual Studio 2013 using Intel C++ compiler 15.
-
-###Notice
-This is part of some work aimed for publication. All rights are reserved temporarily.
+There is also a similar [scala version](https://github.com/hjss06/GASR-Scala) (which is slower than this C++ version).
